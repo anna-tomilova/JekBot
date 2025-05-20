@@ -3,9 +3,9 @@ from functools import lru_cache
 @lru_cache(maxsize=64)
 def get_score_change(dice_value: int) -> int:
     if dice_value in (1, 22, 43):
-        return 7
+        return 100
     elif dice_value in (16, 32, 48):
-        return 5
+        return 150
     elif dice_value == 64:
         return 300
     else:
