@@ -1,6 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from bot.handlers import spin
+from bot.handlers import start
 from bot.database import init_db
 from bot.config_reader import config
 
