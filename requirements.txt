@@ -2,3 +2,4 @@ aiogram==3.4.1
 python-dotenv
 SQLAlchemy[asyncio]
 asyncpg
+pydantic-settings>=2.0.0
