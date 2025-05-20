@@ -1,8 +1,8 @@
 from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
-
-from bot.database import SessionLocal, User
+from bot.database import SessionLocal
+from bot.models import User
 from bot.keyboards import get_spin_keyboard
 
 router = Router()
