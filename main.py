@@ -11,8 +11,7 @@ async def main():
 
     # Подключаем роутеры
     dp.include_router(spin.router)
-
-    # Инициализация базы данных
+    dp.include_router(start.router)
     await init_db()
 
     # Запуск бота в режиме long polling
