@@ -62,6 +62,6 @@ async def handle_spin(message: Message):
             f"🎰 Комбинация: {combo}\n"
 
 {result_text}
-💰 Баланс: {user.score} монет",
+f"💰 Баланс: {user.score} монет",
             reply_markup=get_spin_keyboard()
         )
