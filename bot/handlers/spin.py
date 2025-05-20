@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.enums.dice_emoji import DiceEmoji
 from aiogram.types import Message, CallbackQuery
-from aiogram.filters import Dice
 from aiogram.types import Message
 from aiogram.enums.dice_emoji import DiceEmoji
 from asyncio import sleep
@@ -9,6 +8,7 @@ from sqlalchemy import select
 from bot.database import SessionLocal
 from bot.models import User
 from bot.dice_check import get_score_change, get_combo_parts
+from bot.handlers.spin_logic import handle_spin
 from bot.keyboards import get_spin_keyboard
 import random
 
@@ -21,7 +21,11 @@ LOSE_MESSAGES = [
     "😬 Увы, пусто... но следующий шанс уже близко!",
     "🫣 Эх, не тот ролл. Попробуйте ещё!"
 ]
-
+@router.message()
+async def handle_slot_machine(message: Message):
+    if message.dice and message.dice.emoji == DiceEmoji.SLOT_MACHINE:
+        await handle_spin(message)
+        
 @router.message(F.text.lower().contains("крутить"))
 async def handle_spin_text(message: Message):
     await handle_spin(message)
