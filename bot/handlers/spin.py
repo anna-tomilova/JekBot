@@ -1,6 +1,9 @@
 from aiogram import Router, F
 from aiogram.enums.dice_emoji import DiceEmoji
 from aiogram.types import Message, CallbackQuery
+from aiogram.filters import Dice
+from aiogram.types import Message
+from aiogram.enums.dice_emoji import DiceEmoji
 from asyncio import sleep
 from sqlalchemy import select
 from bot.database import SessionLocal
@@ -18,6 +21,11 @@ async def handle_spin_text(message: Message):
 async def handle_spin_button(call: CallbackQuery):
     await handle_spin(call.message)
     await call.answer()
+
+@router.message(Dice(emoji=DiceEmoji.SLOT_MACHINE))
+async def handle_dice_spin(message: Message):
+    # Переиспользуем ту же логику, что в кнопке "Крутить ещё"
+    await handle_spin(message)
 
 async def handle_spin(message: Message):
     user_id = message.from_user.id
