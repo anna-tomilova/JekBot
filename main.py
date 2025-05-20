@@ -8,6 +8,7 @@ async def main():
     bot = Bot(token=config.bot_token, parse_mode="HTML")
     dp = Dispatcher()
     dp.include_router(spin.router)
+    dp.include_router(start.router)
     await init_db()
     await dp.start_polling(bot)
 if __name__ == "__main__":
