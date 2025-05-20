@@ -1,5 +1,4 @@
 from aiogram import Router
-from aiogram.filters import CommandStart
 from aiogram.types import Message
 from bot.database import SessionLocal
 from bot.models import User
@@ -7,30 +6,28 @@ from bot.keyboards import get_spin_keyboard
 
 router = Router()
 
-@router.message(CommandStart())
-async def cmd_start(message: Message):
+@router.message(commands=["start"])
+async def handle_start(message: Message):
     user_id = message.from_user.id
 
     async with SessionLocal() as session:
-        result = await session.execute(select(User).where(User.user_id == user_id))
+        result = await session.execute(
+            select(User).where(User.user_id == user_id)
+        )
         user = result.scalar_one_or_none()
 
         if not user:
-            # Новый пользователь
             user = User(user_id=user_id)
             session.add(user)
             await session.commit()
-            await message.answer(
-                "👋 Добро пожаловать в Джекпот Бот!\n"
-                "Правила просты:\n"
-                "🎰 Крути слот-машину за 30 монет\n"
-                "🏆 Выиграй до 300 монет за один спин!\n\n"
-                f"💰 Ваш баланс: {user.score} монет",
-                reply_markup=get_spin_keyboard()
+            text = (
+                "👋 Добро пожаловать в слот-бота!\n\n"
+                "🔹 У вас есть 100 монет.\n"
+                "🔹 Каждое вращение стоит 30 монет.\n"
+                "🔹 Вы можете выиграть до 300 монет за раз!\n\n"
+                "Начнем?"
             )
         else:
-            # Повторный вход
-            await message.answer(
-                f"💰 Ваш текущий баланс: {user.score} монет",
-                reply_markup=get_spin_keyboard()
-            )
+            text = f"💰 Ваш текущий баланс: {user.score} монет"
+
+    await message.answer(text, reply_markup=get_spin_keyboard())
