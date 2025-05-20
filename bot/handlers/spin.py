@@ -8,7 +8,6 @@ from sqlalchemy import select
 from bot.database import SessionLocal
 from bot.models import User
 from bot.dice_check import get_score_change, get_combo_parts
-from bot.handlers.spin_logic import handle_spin
 from bot.keyboards import get_spin_keyboard
 import random
 
