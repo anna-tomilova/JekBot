@@ -59,7 +59,7 @@ async def handle_spin(message: Message):
 
         combo = " | ".join(get_combo_parts(value))
         await message.answer(
-            f"🎰 Комбинация: {combo}\n"
+            f"🎰 Комбинация: {combo}\n",
 
 {result_text}
 f"💰 Баланс: {user.score} монет",
