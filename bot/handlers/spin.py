@@ -46,7 +46,7 @@ async def handle_spin(message: Message):
         if score_change > 0:
             user.score += score_change
             user.loss_streak = 0
-            result_text = f"🎉 Поздравляем! Вы выиграли {score_change} монет!"
+            result_text = f"🎉 Поздравляем! Вы выиграли {score_change} монет!\n"
         else:
             user.loss_streak += 1
             result_text = "😢 Не повезло, попробуйте ещё!"
@@ -59,7 +59,7 @@ async def handle_spin(message: Message):
 
         combo = " | ".join(get_combo_parts(value))
         await message.answer(
-            f"🎰 Комбинация: {combo}
+            f"🎰 Комбинация: {combo}\n"
 
 {result_text}
 💰 Баланс: {user.score} монет",
