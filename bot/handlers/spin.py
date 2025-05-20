@@ -10,8 +10,17 @@ from bot.database import SessionLocal
 from bot.models import User
 from bot.dice_check import get_score_change, get_combo_parts
 from bot.keyboards import get_spin_keyboard
+import random
 
 router = Router()
+
+LOSE_MESSAGES = [
+    "😢 Не повезло, попробуйте ещё!",
+    "🎲 Почти! Но не в этот раз.",
+    "🙈 Джекпот убежал, но вы его почти поймали!",
+    "😬 Увы, пусто... но следующий шанс уже близко!",
+    "🫣 Эх, не тот ролл. Попробуйте ещё!"
+]
 
 @router.message(F.text.lower().contains("крутить"))
 async def handle_spin_text(message: Message):
@@ -57,7 +66,7 @@ async def handle_spin(message: Message):
             result_text = f"🎉 Поздравляем! Вы выиграли {score_change} монет!\n"
         else:
             user.loss_streak += 1
-            result_text = "😢 Не повезло, попробуйте ещё!"
+            result_text = random.choice(LOSE_MESSAGES)
             if user.loss_streak >= 5:
                 user.score += 10
                 result_text += " Бонус: +10 монет за серию неудач 🎁"
