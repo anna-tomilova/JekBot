@@ -52,16 +52,15 @@ async def handle_spin(message: Message):
             result_text = "😢 Не повезло, попробуйте ещё!"
             if user.loss_streak >= 5:
                 user.score += 10
-                result_text += " Бонус: +10 монет за серию неудач 🎁"
+                result_text += "Бонус: +10 монет за серию неудач 🎁"
                 user.loss_streak = 0
 
         await session.commit()
 
         combo = " | ".join(get_combo_parts(value))
         await message.answer(
-            f"🎰 Комбинация: {combo}\n",
-
-{result_text}
-f"💰 Баланс: {user.score} монет",
+            f"🎰 Комбинация: {combo}\n"
+            f"{result_text}\n"
+            f"💰 Баланс: {user.score} монет",
             reply_markup=get_spin_keyboard()
         )
