@@ -1,14 +1,15 @@
 from aiogram import Router
-from aiogram.filters import CommandStart
 from aiogram.types import Message
-
-from bot.database import SessionLocal, User
+from aiogram.filters import Command
+from sqlalchemy import select
+from bot.database import SessionLocal
+from bot.models import User
 from bot.keyboards import get_spin_keyboard
 
 router = Router()
 
-@router.message(CommandStart())
-async def cmd_start(message: Message):
+@router.message(Command("start"))
+async def handle_start(message: Message):
     user_id = message.from_user.id
 
     async with SessionLocal() as session:
@@ -20,15 +21,15 @@ async def cmd_start(message: Message):
             user = User(user_id=user_id, score=1000)
             session.add(user)
             await session.commit()
-            await message.answer(
-                "👋 Добро пожаловать в Джекпот Бот!\n"
-                "Правила просты:\n"
-                "🎰 Крути слот-машину за 30 монет\n"
-                "🏆 Выиграй до 300 монет за один спин!\n\n"
-                f"💰 Ваш баланс: {user.score} монет",
-                reply_markup=get_spin_keyboard()
+            text = (
+                "👋 Добро пожаловать в JekBot!\n\n"
+                "🔹 У вас есть 1000 монет.\n"
+                "🔹 Каждое вращение стоит 30 монет.\n"
+                "🔹 Вы можете выиграть до 300 монет за раз!\n\n"
+                "Начнем?"
             )
         else:
+
             # Повторный вход пользователя. Получаем актуальный баланс
            await session.refresh(user)
             text = f"💰 Ваш текущий баланс: {user.score} монет"
