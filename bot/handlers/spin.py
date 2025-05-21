@@ -7,6 +7,7 @@ from bot.database import SessionLocal
 from bot.models import User
 from bot.dice_check import get_score_change, get_combo_parts
 from bot.keyboards import get_spin_keyboard, get_buy_keyboard
+from bot.utils.user import get_or_create_user
 import random
 
 router = Router()
@@ -37,10 +38,9 @@ async def handle_spin_button(call: CallbackQuery):
 
 # Основная логика вращения
 async def handle_spin(message: Message):
-    user_id = message.from_user.id
-    async with SessionLocal() as session:
-        result = await session.execute(select(User).where(User.user_id == user_id))
-        user = result.scalar_one_or_none()
+     user_id = message.from_user.id
+     async with SessionLocal() as session:
+        user = await get_or_create_user(user_id, session)
         if not user:
             user = User(user_id=user_id)
             session.add(user)
