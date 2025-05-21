@@ -1,5 +1,4 @@
-from aiogram import Router
-from aiogram import F
+from aiogram import Router, F
 from aiogram.types import Message
 from bot.database import SessionLocal
 from bot.utils.user import get_or_create_user
@@ -21,7 +20,6 @@ async def start_command(message: Message):
                 "Выберите действие:"
             )
         else:
-
             text = f"💰 Ваш текущий баланс: {user.score} монет"
 
         await message.answer(text, reply_markup=get_spin_keyboard())
