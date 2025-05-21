@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from bot.database import SessionLocal
-from bot.utils.user import get_or_create_user  # ⬅️ вот импорт
+from bot.utils.user import get_or_create_user 
 from bot.keyboards import get_spin_keyboard
 
 router = Router()
