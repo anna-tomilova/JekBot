@@ -16,6 +16,7 @@ async def buy_coins(call: CallbackQuery):
 
     await call.message.answer(
         "💳 Функционал покупки монет за звёзды в разработке, а пока держи +500 монет за наш счёт!",
+        f"💰 Баланс: {user.score} монет"
         reply_markup=get_spin_keyboard()
     )
     await call.answer()
