@@ -1,6 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from bot.handlers import spin
+from bot.handlers import spin, start, balance
 from bot.database import init_db
 from bot.config_reader import config
 
@@ -12,6 +12,7 @@ async def main():
     # Подключаем роутеры
     dp.include_router(spin.router)
     dp.include_router(start.router)
+    dp.include_router(balance.router)
     await init_db()
 
     # Запуск бота в режиме long polling
