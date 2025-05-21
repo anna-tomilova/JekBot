@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from bot.database import SessionLocal
-from bot.utils.user import get_or_create_user 
+from bot.utils.user import get_or_create_user
 from bot.keyboards import get_spin_keyboard
 
 router = Router()
@@ -14,9 +14,10 @@ async def buy_coins(call: CallbackQuery):
         user.score += 500
         await session.commit()
 
-    await call.message.answer(
-        "💳 Функционал покупки монет за звёзды в разработке, а пока держи +500 монет за наш счёт!",
-        f"💰 Баланс: {user.score} монет",
-        reply_markup=get_spin_keyboard()
-    )
+        await call.message.answer(
+            "💳 Функционал покупки монет за звёзды в разработке, а пока держи +500 монет за наш счёт!\n"
+            f"💰 Баланс: {user.score} монет",
+            reply_markup=get_spin_keyboard()
+        )
+
     await call.answer()
