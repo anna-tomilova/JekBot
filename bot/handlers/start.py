@@ -17,7 +17,7 @@ async def cmd_start(message: Message):
 
         if not user:
             # Новый пользователь
-            user = User(user_id=user_id)
+            user = User(user_id=user_id, score=1000)
             session.add(user)
             await session.commit()
             await message.answer(
@@ -29,8 +29,7 @@ async def cmd_start(message: Message):
                 reply_markup=get_spin_keyboard()
             )
         else:
-            # Повторный вход
-            await message.answer(
-                f"💰 Ваш текущий баланс: {user.score} монет",
-                reply_markup=get_spin_keyboard()
-            )
+            # Повторный вход пользователя. Получаем актуальный баланс
+           await session.refresh(user)
+            text = f"💰 Ваш текущий баланс: {user.score} монет"
+    await message.answer(text, reply_markup=get_spin_keyboard())
