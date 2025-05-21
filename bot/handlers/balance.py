@@ -29,6 +29,7 @@ async def handle_buy_coins(call: CallbackQuery):
             )
         else:
             # Существующий пользователь — даём 500 монет
+            await session.refresh(user)
             user.score += 500
             await session.commit()
 
