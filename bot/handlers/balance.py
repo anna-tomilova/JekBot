@@ -11,7 +11,6 @@ async def buy_coins(call: CallbackQuery):
     user_id = call.from_user.id
     async with SessionLocal() as session:
         user = await get_or_create_user(user_id, session)
-
         user.score += 500
         await session.commit()
 

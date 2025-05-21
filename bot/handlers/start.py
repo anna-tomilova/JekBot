@@ -20,6 +20,7 @@ async def start_command(message: Message):
                 "Выберите действие:"
             )
         else:
+
             text = f"💰 Ваш текущий баланс: {user.score} монет"
 
         await message.answer(text, reply_markup=get_spin_keyboard())
