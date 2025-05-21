@@ -1,36 +1,25 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters import Command
-from sqlalchemy import select
 from bot.database import SessionLocal
-from bot.models import User
+from bot.utils.user import get_or_create_user
 from bot.keyboards import get_spin_keyboard
 
 router = Router()
 
-@router.message(Command("start"))
-async def handle_start(message: Message):
+@router.message(F.text == "/start")
+async def start_command(message: Message):
     user_id = message.from_user.id
-
     async with SessionLocal() as session:
-        result = await session.execute(select(User).where(User.user_id == user_id))
-        user = result.scalar_one_or_none()
+        user = await get_or_create_user(user_id, session)
 
-        if not user:
-            # Новый пользователь
-            user = User(user_id=user_id, score=1000)
-            session.add(user)
-            await session.commit()
+        if user.spins == 0:
             text = (
-                "👋 Добро пожаловать в JekBot!\n\n"
-                "🔹 У вас есть 1000 монет.\n"
-                "🔹 Каждое вращение стоит 30 монет.\n"
-                "🔹 Вы можете выиграть до 300 монет за раз!\n\n"
-                "Начнем?"
+                "🎉 Добро пожаловать в JekBot\n"
+                "Каждый спин стоит 30 монет. Если выпадет удачная комбинация — вы получите монеты обратно с прибылью до 300 монет!\n\n"
+                f"💰 Ваш баланс: {user.score} монет\n"
+                "Выберите действие:"
             )
         else:
-
-            # Повторный вход пользователя. Получаем актуальный баланс
-           await session.refresh(user)
             text = f"💰 Ваш текущий баланс: {user.score} монет"
-    await message.answer(text, reply_markup=get_spin_keyboard())
+
+        await message.answer(text, reply_markup=get_spin_keyboard())
