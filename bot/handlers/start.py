@@ -29,8 +29,7 @@ async def handle_start(message: Message):
                 "Начнем?"
             )
         else:
-
             # Повторный вход пользователя. Получаем актуальный баланс
-           await session.refresh(user)
+            await session.refresh(user)
             text = f"💰 Ваш текущий баланс: {user.score} монет"
-    await message.answer(text, reply_markup=get_spin_keyboard())
+            await message.answer(text, reply_markup=get_spin_keyboard())
