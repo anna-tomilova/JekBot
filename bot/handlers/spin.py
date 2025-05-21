@@ -41,11 +41,7 @@ async def handle_spin(message: Message):
      user_id = message.from_user.id
      async with SessionLocal() as session:
         user = await get_or_create_user(user_id, session)
-        if not user:
-            user = User(user_id=user_id)
-            session.add(user)
-            await session.commit()
-
+        
         if user.score < 30:
             await message.answer("У вас недостаточно монет. Пополните баланс ⭐")
             reply_markup=get_buy_keyboard()
