@@ -9,7 +9,7 @@ from sqlalchemy import select
 from bot.database import SessionLocal
 from bot.models import User
 from bot.dice_check import get_score_change, get_combo_parts
-from bot.keyboards import get_spin_keyboard
+from bot.keyboards import get_spin_keyboard, get_buy_keyboard
 import random
 
 router = Router()
@@ -48,6 +48,7 @@ async def handle_spin(message: Message):
 
         if user.score < 30:
             await message.answer("У вас недостаточно монет. Пополните баланс ⭐")
+            reply_markup=get_buy_keyboard()
             return
 
         user.score -= 30
