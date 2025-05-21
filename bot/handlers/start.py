@@ -1,4 +1,5 @@
 from aiogram import Router
+from aiogram import F
 from aiogram.types import Message
 from bot.database import SessionLocal
 from bot.utils.user import get_or_create_user
