@@ -7,8 +7,9 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 class User(Base):
     __tablename__ = "users"
-
-    user_id = mapped_column(BigInteger, primary_key=True)
-    score = mapped_column(Integer, default=1000)
-    spins = mapped_column(Integer, default=0)
-    loss_streak = mapped_column(Integer, default=0)
+    
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, unique=True)
+    score: Mapped[int] = mapped_column(default=1000)
+    spins: Mapped[int] = mapped_column(default=0)
+    loss_streak: Mapped[int] = mapped_column(default=0)
